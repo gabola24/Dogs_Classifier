@@ -35,7 +35,7 @@ def read_content(xml_file: str):
     return file_path,file_name, list_with_all_boxes,list_with_all_names
 
 path='/home/gabriel24/MeetupDL/imagenes/'
-path_to_images='/home/gabriel24/MeetupDL/imagenes/origin'
+path_to_images='/home/gabriel24/MeetupDL/imagenes/origin/'
 dic='labels_map.json'
 
 def save_xmls(directory):
@@ -46,13 +46,13 @@ def save_xmls(directory):
     return(w)
 
 
-def crops_and_metadata(directory,jason_dic):
+def crops_and_metadata(directory,jason_dic,image_directory):
     with open(jason_dic) as f:
         dic = json.loads(f.read())
     os.mkdir('recortes')
     names,splits,labl=[],[],[]
     for i in save_xmls(directory):
-        p=Image.open(path_to_images+i[1])
+        p=Image.open(image_directory+i[1])
         p = np.asarray(p)
         
         for j in range(len(i[3])):
