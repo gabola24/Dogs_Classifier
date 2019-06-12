@@ -21,4 +21,4 @@ def get_letnet_model(num_class):
     model.add(tf.keras.layers.Flatten())
     model.add(tf.keras.layers.Dense(84, activation='tanh'))
     model.add(tf.keras.layers.Dense(num_class, activation='softmax'))
-return model
+    return model
