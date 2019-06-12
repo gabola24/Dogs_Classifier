@@ -113,6 +113,7 @@ def augment_image(image):
     return image
 
 def make_dataset(sources, training=False, batch_size=1, num_epochs=1, num_parallel_calls=1, shuffle_buffer_size=None):
+    import tensorflow as tf
     """
     Returns an operation to iterate over the dataset specified in sources
 
