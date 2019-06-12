@@ -6,6 +6,7 @@ import os
 import uuid
 import json
 import pandas as pd
+import tensorflow as tf
 
 def read_content(xml_file: str):
     tree = ET.parse(xml_file)
