@@ -104,8 +104,8 @@ def imshow_batch_of_three(batch, show_label=True):
         if show_label:
             axarr[i].set(xlabel='label = {}'.format(label_batch[i]))
 
-def preprocess_image(image):
-    image = tf.image.resize(image, size=(32, 32))
+def preprocess_image(image,pixels=32):
+    image = tf.image.resize(image, size=(pixels, pixels))
     image = image / 255.0
     return image
 
