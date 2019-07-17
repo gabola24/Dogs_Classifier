@@ -297,12 +297,10 @@ def build_standard_cnn(
             padding='same', input_shape=input_shape)
         )
     if maxpool != None:
-        model.add(
-            tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))       )
+        model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
     for num_filters in num_filters_per_convolutional_layer[1:]:
         if num_filters==0:
-            model.add(
-            tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+            model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
 
         model.add(
             tf.keras.layers.Conv2D(
