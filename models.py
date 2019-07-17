@@ -216,3 +216,105 @@ def inception_module(layer_in, f1, f2_in, f2_out, f3_in, f3_out, f4_out):
 
     layer_out = tf.keras.layers.concatenate([conv1, conv3, conv5, pool], axis=-1)
     return layer_out
+def get_vgg16_model_experiment(num_class,arch):
+    model = tf.keras.Sequential()
+    for i in arch:
+        model.add(tf.keras.layers.Conv2D(
+            filters=arch[i], kernel_size=(3,3), activation='relu',
+            padding='same', input_shape=(224, 224, 3)))
+            
+        model.add(tf.keras.layers.Conv2D(
+            filters=arch[i], kernel_size=(3,3), activation='relu',
+            padding='same'))
+        model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+            
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=64, kernel_size=(3,3), activation='relu',
+            padding='same'
+        )
+    )
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=64, kernel_size=(3,3), activation='relu',
+            padding='same'
+        )
+    )
+    model.add(tf.keras.layers.AveragePooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=128, kernel_size=(3,3), activation='relu',
+            padding='same'
+            )
+    )
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=128, kernel_size=(3,3), activation='relu',
+            padding='same'
+            )
+    )
+    model.add(tf.keras.layers.AveragePooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=256, kernel_size=(3,3), activation='relu',
+            padding='same'
+            )
+    )
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=256, kernel_size=(3,3), activation='relu',
+            padding='same'
+            )
+    )
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=256, kernel_size=(3,3), activation='relu',
+            padding='same'
+            )
+    )
+    model.add(tf.keras.layers.AveragePooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(2048, activation='relu'))
+    model.add(tf.keras.layers.Dense(1024, activation='relu'))
+    model.add(tf.keras.layers.Dense(num_class, activation='softmax'))
+    return model
+
+def build_standard_cnn(
+    num_filters_per_convolutional_layer,
+    num_units_per_dense_layer,
+    input_shape,
+    num_classes,
+    activation='relu',
+    maxpool=None):
+    """
+    """
+    model = tf.keras.Sequential()
+    model.add(
+        tf.keras.layers.Conv2D(
+            filters=num_filters_per_convolutional_layer[0],
+            kernel_size=(3, 3), activation=activation,
+            padding='same', input_shape=input_shape)
+        )
+    if maxpool != None:
+        model.add(
+            tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))       )
+    for num_filters in num_filters_per_convolutional_layer[1:]:
+        if num_filters==0:
+            model.add(
+            tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+
+        model.add(
+            tf.keras.layers.Conv2D(
+                filters=num_filters,
+                kernel_size=(3, 3), activation=activation,
+                padding='same')
+        )
+        
+    model.add(tf.keras.layers.Flatten())
+    for num_units in num_units_per_dense_layer:
+        model.add(tf.keras.layers.Dense(num_units, activation=activation))
+        
+    model.add(tf.keras.layers.Dense(num_classes, activation='softmax'))
+    
+    return model
