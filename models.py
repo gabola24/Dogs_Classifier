@@ -1,4 +1,7 @@
 import tensorflow as tf
+import numpy as np
+from keras.initializers import glorot_uniform
+import keras.backend as K
 
 def get_lineal_model(num_class):
     model = tf.keras.Sequential()
