@@ -318,6 +318,7 @@ def build_standard_cnn(
     model.add(tf.keras.layers.Dense(num_classes, activation='softmax'))
     
     return model
+
 def identity_block(X, f, filters, stage, block):
     
     # Defining name basis
@@ -331,17 +332,17 @@ def identity_block(X, f, filters, stage, block):
     X_shortcut = X
     
     # First component of main path
-    X = tf.keras.layers.Conv2D(filters = F1, kernel_size = (1, 1), strides = (1,1), padding = 'valid', name = conv_name_base + '2a', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = tf.keras.layers.Conv2D(filters = F1, kernel_size = (1, 1), strides = (1,1), padding = 'valid', name = conv_name_base + '2a')(X)
     X = tf.keras.layers.BatchNormalization(axis = 3, name = bn_name_base + '2a')(X)
     X = tf.keras.layers.Activation('relu')(X)
     
     # Second component of main path
-    X = tf.keras.layers.Conv2D(filters = F2, kernel_size = (f, f), strides = (1, 1), padding = 'same', name = conv_name_base + '2b', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = tf.keras.layers.Conv2D(filters = F2, kernel_size = (f, f), strides = (1, 1), padding = 'same', name = conv_name_base + '2b')(X)
     X = tf.keras.layers.BatchNormalization(axis = 3, name = bn_name_base + '2b')(X)
     X = tf.keras.layers.Activation('relu')(X)
 
     # Third component of main path 
-    X = tf.keras.layers.Conv2D(filters = F3, kernel_size = (1, 1), strides = (1, 1), padding = 'valid', name = conv_name_base + '2c', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = tf.keras.layers.Conv2D(filters = F3, kernel_size = (1, 1), strides = (1, 1), padding = 'valid', name = conv_name_base + '2c')(X)
     X = tf.keras.layers.BatchNormalization(axis = 3, name = bn_name_base + '2c')(X)
 
     # Final step: Add shortcut value to main path, and pass it through a RELU activation
@@ -349,6 +350,7 @@ def identity_block(X, f, filters, stage, block):
     X = tf.keras.layers.Activation('relu')(X)
     
     return X
+
 def convolutional_block(X, f, filters, stage, block, s=2):
 
     # Defining name basis
@@ -363,21 +365,21 @@ def convolutional_block(X, f, filters, stage, block, s=2):
 
     ##### MAIN PATH #####
     # First component of main path 
-    X = tf.keras.layers.Conv2D(filters=F1, kernel_size=(1, 1), strides=(s, s), padding='valid', name=conv_name_base + '2a', kernel_initializer=glorot_uniform(seed=0))(X)
+    X = tf.keras.layers.Conv2D(filters=F1, kernel_size=(1, 1), strides=(s, s), padding='valid', name=conv_name_base + '2a')(X)
     X = tf.keras.layers.BatchNormalization(axis=3, name=bn_name_base + '2a')(X)
     X = tf.keras.layers.Activation('relu')(X)
 
     # Second component of main path
-    X = tf.keras.layers.Conv2D(filters=F2, kernel_size=(f, f), strides=(1, 1), padding='same', name=conv_name_base + '2b', kernel_initializer=glorot_uniform(seed=0))(X)
+    X = tf.keras.layers.Conv2D(filters=F2, kernel_size=(f, f), strides=(1, 1), padding='same', name=conv_name_base + '2b')(X)
     X = tf.keras.layers.BatchNormalization(axis=3, name=bn_name_base + '2b')(X)
     X = tf.keras.layers.Activation('relu')(X)
 
     # Third component of main path
-    X = tf.keras.layers.Conv2D(filters=F3, kernel_size=(1, 1), strides=(1, 1), padding='valid', name=conv_name_base + '2c', kernel_initializer=glorot_uniform(seed=0))(X)
+    X = tf.keras.layers.Conv2D(filters=F3, kernel_size=(1, 1), strides=(1, 1), padding='valid', name=conv_name_base + '2c')(X)
     X = tf.keras.layers.BatchNormalization(axis=3, name=bn_name_base + '2c')(X)
 
     ##### SHORTCUT PATH #### 
-    X_shortcut = tf.keras.layers.Conv2D(filters=F3, kernel_size=(1, 1), strides=(s, s), padding='valid', name=conv_name_base + '1', kernel_initializer=glorot_uniform(seed=0))(X_shortcut)
+    X_shortcut = tf.keras.layers.Conv2D(filters=F3, kernel_size=(1, 1), strides=(s, s), padding='valid', name=conv_name_base + '1')(X_shortcut)
     X_shortcut = tf.keras.layers.BatchNormalization(axis=3, name=bn_name_base + '1')(X_shortcut)
 
     # Final step: Add shortcut value to main path, and pass it through a RELU activation
@@ -385,6 +387,7 @@ def convolutional_block(X, f, filters, stage, block, s=2):
     X = tf.keras.layers.Activation('relu')(X)
 
     return X
+
 
 def ResNet50(input_shape = (224, 224, 3), classes = 6):
     
