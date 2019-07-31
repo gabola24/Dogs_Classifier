@@ -399,7 +399,7 @@ def ResNet50(input_shape = (224, 224, 3), classes = 6):
     X = tf.keras.layers.ZeroPadding2D((3, 3))(X_input)
     
     # Stage 1
-    X = tf.keras.layers.Conv2D(64, (7, 7), strides = (2, 2), name = 'conv1'))(X)
+    X = tf.keras.layers.Conv2D(64, (7, 7), strides = (2, 2), name = 'conv1')(X)
     X = tf.keras.layers.BatchNormalization(axis = 3, name = 'bn_conv1')(X)
     X = tf.keras.layers.Activation('relu')(X)
     X = tf.keras.layers.MaxPooling2D((3, 3), strides=(2, 2))(X)
